@@ -31,10 +31,10 @@ class WebConnection:
             self.__print("Unknown message")
 
     def on_error(self, ws, error):
-        print error
+        self.print(error)
 
     def on_close(self, ws):
-        print "### closed ###"
+        pass
 
     def on_open(self, ws):
         ws.send("Hello %d" % i)

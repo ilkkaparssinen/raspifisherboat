@@ -9,10 +9,9 @@
 # Motors - handle motors by skid steering
 
 
-from motors import Motors
 from player import Player
 from adcsensors import AdcSensors
-from motors import Motors
+# from motors import Motors
 from webconnection import WebConnection
 from gpstracker import GpsTracker
 
@@ -36,7 +35,7 @@ class Brainz:
         self.flex_fish_limit = self.FLEX_FISH_LIMIT
         self.player = Player(self,verbose)
         self.adc_sensors = AdcSensors(self,verbose)
-        self.motors = Motors(self,verbose)
+#       self.motors = Motors(self,verbose)
         self.web_connection = WebConnection(self,verbose)
         self.gps_tracker = GpsTracker(self.verbose)
 
@@ -66,9 +65,9 @@ class Brainz:
     def start(self):
         # If you dont want/have some module - just remove start method
         self.player.start()
-        self.motors.start()
-        self.adc_sensors.start()
-        self.web_connection.start()
+#       self.motors.start()
+#       self.adc_sensors.start()
+#       self.web_connection.start()
         self.gps_tracker.start()
         self.__print('Brainz warming up')
         time.sleep(1)
@@ -80,7 +79,7 @@ class Brainz:
         finally:
             self.player.stop()
             self.web_connection.stop()
-            self.motors.stop()
+#           self.motors.stop()
             self.adc_sensors.stop()
             self.__print('Brainz died')
 
@@ -89,7 +88,7 @@ class Brainz:
         self.gps_tracker.tick(interval)
         self.player.tick(interval)
         self.adc_sensors.tick(interval)
-        self.motors.tick(interval)
+#       self.motors.tick(interval)
         self.web_connection.tick(interval)
         self.tick_check()
         self.status_counter += 1

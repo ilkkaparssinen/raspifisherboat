@@ -49,9 +49,8 @@ class GpsTracker:
         if not self.started:
             return
 
-        try:
-            self.__print(gpsd.fix)
-            self.speed = gpsd.fix.speed
-            self.latitude = gpsd.fix.latitude
-            self.longitude = gpsd.fix.longitude
-            self.track = gpsd.fix.track
+        self.__print(gpsd.fix)
+        self.speed = gpsd.fix.speed
+        self.latitude = gpsd.fix.latitude
+        self.longitude = gpsd.fix.longitude
+        self.track = gpsd.fix.track
