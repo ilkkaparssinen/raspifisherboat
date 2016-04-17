@@ -1,6 +1,6 @@
 # Motors . skid steering - control two motors
 
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
+from Adafruit_MotorHAT import Adafruit_MotorHAT
 
 
 class Motors:
