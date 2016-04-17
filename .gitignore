@@ -1,7 +1,6 @@
 # ignore
 __pycache__
 logs
-servod
 *.txt
 .idea
 
