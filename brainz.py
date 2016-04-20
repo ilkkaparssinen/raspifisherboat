@@ -11,9 +11,9 @@
 
 from player import Player
 from adcsensors import AdcSensors
-# from motors import Motors
+from motors import Motors
 from webconnection import WebConnection
-from gpstracker import GpsTracker
+# from gpstracker import GpsTracker
 
 import time
 import os
@@ -29,15 +29,15 @@ class Brainz:
 
     def __init__(self, verbose=False):
         self.verbose = verbose
-        self.status_counter
+        self.status_counter = 0
         self.state   = self.STATE_WAITING
         self.currenttime    = 0
         self.flex_fish_limit = self.FLEX_FISH_LIMIT
         self.player = Player(self,verbose)
         self.adc_sensors = AdcSensors(self,verbose)
-#       self.motors = Motors(self,verbose)
+        self.motors = Motors(self,verbose)
         self.web_connection = WebConnection(self,verbose)
-        self.gps_tracker = GpsTracker(self.verbose)
+#       self.gps_tracker = GpsTracker(self.verbose)
 
 # Initial valus for settings
 # Speed: (0-1). 1 = Full speed ahead
@@ -55,7 +55,7 @@ class Brainz:
         self.speed_change_percent    = 0
 
 # Play music or not
-        self.play_music = False
+        self.play_music = True
 
     def __print(self, str):
         if self.verbose:
@@ -65,10 +65,10 @@ class Brainz:
     def start(self):
         # If you dont want/have some module - just remove start method
         self.player.start()
-#       self.motors.start()
+        self.motors.start()
 #       self.adc_sensors.start()
 #       self.web_connection.start()
-        self.gps_tracker.start()
+#       self.gps_tracker.start()
         self.__print('Brainz warming up')
         time.sleep(1)
         self.player.talk("Hello. Boat bot wants to start fishing")
@@ -79,16 +79,16 @@ class Brainz:
         finally:
             self.player.stop()
             self.web_connection.stop()
-#           self.motors.stop()
+            self.motors.stop()
             self.adc_sensors.stop()
             self.__print('Brainz died')
 
     def tick(self):
         interval = self.TICK_INTERVAL
-        self.gps_tracker.tick(interval)
+#       self.gps_tracker.tick(interval)
         self.player.tick(interval)
         self.adc_sensors.tick(interval)
-#       self.motors.tick(interval)
+        self.motors.tick(interval)
         self.web_connection.tick(interval)
         self.tick_check()
         self.status_counter += 1

@@ -49,10 +49,9 @@ class Motors:
         new_right_motor_speed = new_speed * (1.0 - self.brainz.turn ) / 2.0
         new_left_motor_speed = new_speed * (1.0 + self.brainz.turn ) / 2.0
 
-        self.leftMotor.setSpeed(new_left_motor_speed * 255)
-        self.rightMotor.setSpeed(new_right_motor_speed * 255)
+        self.leftMotor.setSpeed(int(new_left_motor_speed * 255))
+        self.rightMotor.setSpeed(int(new_right_motor_speed * 255))
 
-    def set_speed_motor(self,motor,speed):
-        self.__print("Set speed:" + str(motor) + " " + str(speed))
+        self.__print("Set speedright:" + str(new_right_motor_speed) + " " + str(new_left_motor_speed))
 
 

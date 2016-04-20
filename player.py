@@ -49,7 +49,7 @@ class Player:
         self.current_song += 1
         self.current_song_played = 0
 
-        if self.song_count <= self.song_count:
+        if self.song_count <= self.current_song:
             self.current_song = -1
             self.current_song_length = self.song_lengths[0]
         else:
@@ -57,6 +57,7 @@ class Player:
             self.play(self.songs[self.current_song])
 
     def play(self,mp3file):
+        self.__print("Play file:" + mp3file)
         FNULL = open(os.devnull, 'w')
         subprocess.Popen(["omxplayer",mp3file],stdout=FNULL, stderr=subprocess.STDOUT)
 

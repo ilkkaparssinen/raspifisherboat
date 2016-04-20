@@ -15,6 +15,8 @@ class WebConnection:
         self.brainz = brainz
         self.verbose = verbose
         self.ticks = 0
+        self.started = False
+        self.ws = None
 
     def __print(self, str):
         if self.verbose:
@@ -50,6 +52,8 @@ class WebConnection:
 
     # Just to test connection
     def tick(self,tick_time):
+        if not self.started:
+            return
         self.ticks = self.ticks + 1
         if self.ticks > 1000:
             self.ticks = 0
