@@ -47,12 +47,12 @@ class Brainz:
         self.speed      = 0.5
         self.turn       = 0.0
 # speed style examples:
-#   - Constant speed = (speed_change_percent = 0)
-#   - Stop and go jigging with 6 sec motor on and 4 sec stop. speed_change_percent = 100,speed_change_cycle = 10, speed_motors_full_percent = 60
-#   - Trolling with 10 sec half speed and 5 sec full speed. speed_change_percent = 50, speed_change_cycle = 15, speed_motors_full_percent = 66.66
+#   - Constant speed = (low_speed_percent = 100)
+#   - Stop and go jigging with 6 sec motor on and 4 sec stop. low_speed_percent = 0,speed_change_cycle = 10, speed_motors_full_percent = 60
+#   - Trolling with 10 sec half speed and 5 sec full speed. low_speed_percent = 50, speed_change_cycle = 15, speed_motors_full_percent = 66.66
         self.speed_change_cycle = 0
         self.speed_motors_full_percent = 100
-        self.speed_change_percent    = 0
+        self.low_speed_percent    = 0
 
 # Play music or not
         self.play_music = False

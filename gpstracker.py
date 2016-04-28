@@ -2,21 +2,29 @@
 # GPS Tracking
 #
 
-import gps
+from gps3 import GPSDSocket, Fix
+
 import threading
 
 gpsd = None
+gps_fix = None
 
 class GpsPoller(threading.Thread):
   def __init__(self):
     threading.Thread.__init__(self)
     global gpsd #bring it in scope
-    gpsd = gps(mode=gps.WATCH_ENABLE) #starting the stream of info
+    gpsd = GPSDSocket("127.0.0.1")
     self.current_value = None
     self.running = True #setting the thread running to true
 
   def run(self):
     global gpsd
+    global gps_fix
+    gps_fix = Fix()
+
+    for new_data in gpsd:
+            if new_data:
+                gps_fix.refresh(new_data)
     while self.running:
       gpsd.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
 
@@ -49,8 +57,8 @@ class GpsTracker:
         if not self.started:
             return
 
-        self.__print(gpsd.fix)
-        self.speed = gpsd.fix.speed
-        self.latitude = gpsd.fix.latitude
-        self.longitude = gpsd.fix.longitude
-        self.track = gpsd.fix.track
+        self.__print(gps_fix)
+        self.speed = gps_fix.speed
+        self.latitude = gps_fix.latitude
+        self.longitude = gps_fix.longitude
+        self.track = gps_fix.track

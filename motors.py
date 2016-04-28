@@ -39,13 +39,13 @@ class Motors:
 
     def set_speed(self):
         new_speed = 0
-        if self.brainz.speed_change_percent < 1:
+        if self.brainz.low_speed_percent < 1:
             new_speed = self.brainz.speed
         else:
             if self.cycle_time > self.brainz.speed_change_cycle:
                 self.cycle_time = 0
             if self.cycle_time > self.brainz.speed_motors_full_percent *  self.brainz.speed_change_cycle / 100.0:
-                new_speed = self.brainz.speed * (100 - self.brainz.speed_change_percent) / 100.0
+                new_speed = self.brainz.speed * self.brainz.low_speed_percent / 100.0
             else:
                 new_speed = self.brainz.speed
 

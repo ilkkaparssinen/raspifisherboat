@@ -25,9 +25,9 @@ class WebConnection:
     def on_message(self, ws, message):
         self.__print(message)
         imess = json.loads(message)
-        if imess.action == "ping":
+        if imess.action == "PING":
             self.__print("ping")
-        elif imess.action == "set":
+        elif imess.action == "SETTINGS":
             self.set_settings(imess)
         else:
             self.__print("Unknown message")
@@ -47,7 +47,7 @@ class WebConnection:
                                 on_message = self.on_message,
                                 on_error = self.on_error,
                                 on_close = self.on_close)
-
+        self.send_settings()
         self.started = True
 
     # Just to test connection
@@ -74,14 +74,28 @@ class WebConnection:
         self.brainz.turn                      = mess["turn"]
         self.brainz.speed_change_cycle        = mess["speed_change_cycle"]
         self.brainz.speed_motors_full_percent = mess["speed_motors_full_percent"]
-        self.brainz.speed_change_percent      = mess["speed_change_percent"]
+        self.brainz.low_speed_percent         = mess["low_speed_percent"]
         self.brainz.play_music                = mess["play_music"]
+
+    def send_settings(self):
+        if not self.started:
+            return
+        mess = {}
+        mess["action"]             = "SETTINGS"
+        mess["speed"]              = self.brainz.speed
+        mess["turn"]               = self.brainz.turn
+        mess["speed_change_cycle"] = self.brainz.speed_change_cycle
+        mess["speed_motors_full_percent"] = self.brainz.speed_motors_full_percent
+        mess["low_speed_percent"]  = self.brainz.low_speed_percent
+        mess["play_music"]         = self.brainz.play_music
+
+        self.ws.send(json.dump(mess))
 
     def send_status(self):
         if not self.started:
             return
         mess = {}
-        mess["action"] = "status"
+        mess["action"] = "STATUS"
         mess["latitude"] = self.brainz.gps_tracker.latitude
         mess["longitude"] = self.brainz.gps_tracker.longitude
         mess["speed"] = self.brainz.gps_tracker.speed
