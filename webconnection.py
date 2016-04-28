@@ -33,7 +33,7 @@ class WebConnection:
             self.__print("Unknown message")
 
     def on_error(self, ws, error):
-        self.print(error)
+        self.__print(error)
 
     def on_close(self, ws):
         pass

@@ -55,7 +55,7 @@ class Brainz:
         self.speed_change_percent    = 0
 
 # Play music or not
-        self.play_music = True
+        self.play_music = False
 
     def __print(self, str):
         if self.verbose:

@@ -1,6 +1,6 @@
 # Motors . skid steering - control two motors
 
-from Adafruit_MotorHAT import Adafruit_MotorHAT
+from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
 
 class Motors:
@@ -18,7 +18,13 @@ class Motors:
         self.started = True
         self.mh = Adafruit_MotorHAT(addr=0x60)
         self.leftMotor = self.mh.getMotor(1)
+        self.leftMotor.setSpeed(0)
+        self.leftMotor.run(Adafruit_MotorHAT.FORWARD)
+        self.leftMotor.run(Adafruit_MotorHAT.RELEASE)
         self.rightMotor = self.mh.getMotor(2)
+        self.rightMotor.setSpeed(0)
+        self.rightMotor.run(Adafruit_MotorHAT.FORWARD)
+        self.rightMotor.run(Adafruit_MotorHAT.RELEASE)
 
     def stop(self):
         self.leftMotor.run(Adafruit_MotorHAT.RELEASE)
@@ -49,9 +55,11 @@ class Motors:
         new_right_motor_speed = new_speed * (1.0 - self.brainz.turn ) / 2.0
         new_left_motor_speed = new_speed * (1.0 + self.brainz.turn ) / 2.0
 
-        self.leftMotor.setSpeed(int(new_left_motor_speed * 255))
+        self.rightMotor.run(Adafruit_MotorHAT.FORWARD)
+        self.leftMotor.run(Adafruit_MotorHAT.FORWARD)
+        self.leftMotor.setSpeed(int(new_left_motor_speed * 255) )
         self.rightMotor.setSpeed(int(new_right_motor_speed * 255))
 
-        self.__print("Set speedright:" + str(new_right_motor_speed) + " " + str(new_left_motor_speed))
+        self.__print("Set speedright:" + str(int(new_right_motor_speed * 255)) + " " + str(int(new_left_motor_speed * 255)))
 
 
