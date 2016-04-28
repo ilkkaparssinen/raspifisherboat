@@ -42,11 +42,11 @@ class WebConnection:
         self.__print(error)
 
     def on_close(self, ws):
-        self.started = True
         self.__print("Websocket closed")
 
     def on_open(self, ws):
         self.subscribe()
+        self.started = True
         self.send_settings()
         self.__print("Websocket opened")
 

@@ -35,8 +35,8 @@ class GpsTracker:
         self.verbose = verbose
         self.brainz = brainz
         self.started = False
-        self.latitude = 0
-        self.longitude = 0
+        self.latitude = 60 
+        self.longitude = 20
         self.speed = 0
         self.track = 0
 
