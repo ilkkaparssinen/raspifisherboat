@@ -10,6 +10,9 @@ import websocket
 import os.path
 import json
 
+import threading
+
+
 class WebConnection:
     def __init__(self, brainz=None, verbose=False):
         self.brainz = brainz
@@ -17,6 +20,7 @@ class WebConnection:
         self.ticks = 0
         self.started = False
         self.ws = None
+        self.wst = None
         self.topic = "TEST"
 
     def __print(self, str):
@@ -54,7 +58,9 @@ class WebConnection:
                                 on_close = self.on_close)
         self.ws.on_open = self.on_open
         self.__print("Websocket started")
-        self.ws.run_forever()
+        self.wst = threading.Thread(target=self.ws.run_forever)
+        self.wst.daemon = True
+        self.wst.start()
 
     # Just to test connection
     def tick(self,tick_time):
