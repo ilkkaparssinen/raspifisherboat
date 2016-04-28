@@ -17,6 +17,7 @@ class WebConnection:
         self.ticks = 0
         self.started = False
         self.ws = None
+        self.topic = "TEST"
 
     def __print(self, str):
         if self.verbose:
@@ -25,9 +26,10 @@ class WebConnection:
     def on_message(self, ws, message):
         self.__print(message)
         imess = json.loads(message)
-        if imess.action == "PING":
+        self.__print(imess)
+        if imess["action"] == "PING":
             self.__print("ping")
-        elif imess.action == "SETTINGS":
+        elif imess["action"] == "SETTINGS":
             self.set_settings(imess)
         else:
             self.__print("Unknown message")
@@ -36,19 +38,23 @@ class WebConnection:
         self.__print(error)
 
     def on_close(self, ws):
-        pass
+        self.started = True
+        self.__print("Websocket closed")
 
     def on_open(self, ws):
-        ws.send("Hello %d" % i)
+        self.subscribe()
+        self.send_settings()
+        self.__print("Websocket opened")
 
     def start(self):
         websocket.enableTrace(True)
-        self.ws = websocket.WebSocketApp("ws://127.0.0.1:80/foo",
+        self.ws = websocket.WebSocketApp("ws://52.51.75.200:8080",
                                 on_message = self.on_message,
                                 on_error = self.on_error,
                                 on_close = self.on_close)
-        self.send_settings()
-        self.started = True
+        self.ws.on_open = self.on_open
+        self.__print("Websocket started")
+        self.ws.run_forever()
 
     # Just to test connection
     def tick(self,tick_time):
@@ -69,7 +75,17 @@ class WebConnection:
         mess["action"] = "ping"
         self.ws.send(json.dump(mess))
 
+    def subscribe(self):
+        self.__print("Set settings")
+        mess = {}
+        mess["action"]             = "SUBSCRIBE"
+        mess["topic"]              = self.topic
+        mess["type"]              = "BOAT"
+        self.ws.send(json.dumps(mess))
+
+
     def set_settings(self,mess):
+        self.__print("Set settings")
         self.brainz.speed                     = mess["speed"]
         self.brainz.turn                      = mess["turn"]
         self.brainz.speed_change_cycle        = mess["speed_change_cycle"]
@@ -78,10 +94,12 @@ class WebConnection:
         self.brainz.play_music                = mess["play_music"]
 
     def send_settings(self):
+        self.__print("Send settings")
         if not self.started:
             return
         mess = {}
         mess["action"]             = "SETTINGS"
+        mess["topic"]              = self.topic
         mess["speed"]              = self.brainz.speed
         mess["turn"]               = self.brainz.turn
         mess["speed_change_cycle"] = self.brainz.speed_change_cycle
@@ -89,13 +107,15 @@ class WebConnection:
         mess["low_speed_percent"]  = self.brainz.low_speed_percent
         mess["play_music"]         = self.brainz.play_music
 
-        self.ws.send(json.dump(mess))
+        self.ws.send(json.dumps(mess))
 
     def send_status(self):
+        self.__print("Send status")
         if not self.started:
             return
         mess = {}
         mess["action"] = "STATUS"
+        mess["topic"]              = self.topic
         mess["latitude"] = self.brainz.gps_tracker.latitude
         mess["longitude"] = self.brainz.gps_tracker.longitude
         mess["speed"] = self.brainz.gps_tracker.speed
@@ -103,4 +123,4 @@ class WebConnection:
         mess["song"] = self.brainz.player.current_song
         mess["state"] = self.brainz.state
 
-        self.ws.send(json.dump(mess))
+        self.ws.send(json.dumps(mess))
