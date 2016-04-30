@@ -19,7 +19,7 @@ from video import Video
 import time
 import os
 import datetime
-
+import sys
 class Brainz:
     STATE_WAITING = 0
     STATE_FISHING = 1
@@ -38,8 +38,8 @@ class Brainz:
         self.adc_sensors = AdcSensors(self,verbose)
         self.motors = Motors(self,verbose)
         self.web_connection = WebConnection(self,verbose)
-        self.gps_tracker = GpsTracker(self.verbose)
-        self.video = Video(self.verbose)
+        self.gps_tracker = GpsTracker(self,verbose)
+        self.video = Video(self,verbose)
 
 
 # Initial valus for settings
@@ -68,7 +68,7 @@ class Brainz:
     def start(self):
         # If you dont want/have some module - just remove start method
         self.player.start()
-        self.motors.start()
+#       self.motors.start()
 #       self.adc_sensors.start()
         self.web_connection.start()
 #       self.gps_tracker.start()
@@ -80,30 +80,39 @@ class Brainz:
         try:
             while True:
                 self.tick()
+        except:
+            self.__print("Unexpected error 2:")
+            self.__print( sys.exc_info()[0])
+            raise
         finally:
             self.player.stop()
             self.web_connection.stop()
-            self.motors.stop()
+#           self.motors.stop()
             self.video.stop()
             self.adc_sensors.stop()
             self.__print('Brainz died')
 
     def tick(self):
-        interval = self.TICK_INTERVAL
-#       self.gps_tracker.tick(interval)
-        self.player.tick(interval)
-        self.adc_sensors.tick(interval)
-        self.video.tick(interval)
-#       self.motors.tick(interval)
-        self.web_connection.tick(interval)
-        self.tick_check()
-        self.status_counter += 1
+        try:
+            interval = self.TICK_INTERVAL
+#           self.gps_tracker.tick(interval)
+#           self.player.tick(interval)
+#           self.adc_sensors.tick(interval)
+            self.video.tick(interval)
+#           self.motors.tick(interval)
+#           self.web_connection.tick(interval)
+            self.tick_check()
+            self.status_counter += 1
         # Send status report to websocket server
-        if self.status_counter > self.STATUS_REPORT_TICKS:
-            self.web_connection.send_status()
-            self.status_counter = 0
+            if self.status_counter > self.STATUS_REPORT_TICKS:
+                self.web_connection.send_status()
+                self.status_counter = 0
 
-        time.sleep(self.TICK_INTERVAL)
+            time.sleep(self.TICK_INTERVAL)
+        except:
+            self.__print("Unexpected error 1:")
+            self.__print( sys.exc_info()[0])
+            raise
 
     def tick_check(self):
         if self.state == self.STATE_FISHING:

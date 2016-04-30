@@ -120,9 +120,9 @@ class WebConnection:
         if not self.started:
             return
         mess = {}
-        mess["action"]             = "VIDEO"
+        mess["action"]             = "IMAGE"
         mess["topic"]              = self.topic
-        mess["image"]              = base64.b64decode(image)
+        mess["image"]              = base64.b64encode(image)
         self.ws.send(json.dumps(mess))
 
     def send_status(self):

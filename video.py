@@ -51,7 +51,7 @@ class Video:
             stream.seek(0)
             stream.truncate()
 
-    def tick(self):
+    def tick(self,interval):
         pass
 
     def stop(self):
