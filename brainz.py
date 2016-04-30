@@ -14,6 +14,7 @@ from adcsensors import AdcSensors
 from motors import Motors
 from webconnection import WebConnection
 from gpstracker import GpsTracker
+from video import Video
 
 import time
 import os
@@ -38,6 +39,8 @@ class Brainz:
         self.motors = Motors(self,verbose)
         self.web_connection = WebConnection(self,verbose)
         self.gps_tracker = GpsTracker(self.verbose)
+        self.video = Video(self.verbose)
+
 
 # Initial valus for settings
 # Speed: (0-1). 1 = Full speed ahead
@@ -70,6 +73,7 @@ class Brainz:
         self.web_connection.start()
 #       self.gps_tracker.start()
         self.__print('Brainz warming up')
+        self.video.start()
         time.sleep(1)
         self.player.talk("Hello. Boat bot wants to start fishing")
 
@@ -80,6 +84,7 @@ class Brainz:
             self.player.stop()
             self.web_connection.stop()
             self.motors.stop()
+            self.video.stop()
             self.adc_sensors.stop()
             self.__print('Brainz died')
 
@@ -88,6 +93,7 @@ class Brainz:
 #       self.gps_tracker.tick(interval)
         self.player.tick(interval)
         self.adc_sensors.tick(interval)
+        self.video.tick(interval)
 #       self.motors.tick(interval)
         self.web_connection.tick(interval)
         self.tick_check()
