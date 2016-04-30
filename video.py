@@ -31,8 +31,8 @@ class Video:
         self.started = True
 
         self.camera = picamera.PiCamera()
-        self.camera.resolution = (640, 480)
-        self.camera.framerate = 5
+        self.camera.resolution = (160, 120)
+        self.camera.framerate = 2
         self.__print('Waiting 2 seconds for the camera to warm up')
         time.sleep(2)
 
@@ -46,7 +46,9 @@ class Video:
     def record_camera(self):
         stream=io.BytesIO()
 
-        for foo in self.camera.capture_continuous(stream,'jpeg'):
+        for foo in self.camera.capture_continuous(stream,'jpeg',True):
+#           img = stream.getvalue()
+            self.__print("Image")
             self.brainz.web_connection.send_image(stream.getvalue())
             stream.seek(0)
             stream.truncate()

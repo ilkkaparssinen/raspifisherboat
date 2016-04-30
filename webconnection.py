@@ -22,13 +22,14 @@ class WebConnection:
         self.ws = None
         self.wst = None
         self.topic = "TEST"
+        self.lock = threading.Lock()
 
     def __print(self, str):
         if self.verbose:
             print (str)
 
     def on_message(self, ws, message):
-        self.__print(message)
+        self.__print("Message received")
         imess = json.loads(message)
         self.__print(imess)
         if imess["action"] == "PING":
@@ -51,7 +52,7 @@ class WebConnection:
         self.__print("Websocket opened")
 
     def start(self):
-        websocket.enableTrace(True)
+#       websocket.enableTrace(True)
         self.ws = websocket.WebSocketApp("ws://52.51.75.200:8080",
                                 on_message = self.on_message,
                                 on_error = self.on_error,
@@ -88,7 +89,9 @@ class WebConnection:
         mess["action"]             = "SUBSCRIBE"
         mess["topic"]              = self.topic
         mess["type"]              = "BOAT"
+        self.lock.acquire()
         self.ws.send(json.dumps(mess))
+        self.lock.release()
 
 
     def set_settings(self,mess):
@@ -113,7 +116,11 @@ class WebConnection:
         mess["speed_motors_full_percent"] = self.brainz.speed_motors_full_percent
         mess["low_speed_percent"]  = self.brainz.low_speed_percent
         mess["play_music"]         = self.brainz.play_music
-        self.ws.send(json.dumps(mess))
+        self.lock.acquire()
+        xx = json.dumps(mess)
+#       self.ws.send(json.dumps(mess))
+        self.lock.release()
+        self.__print("Sended settings")
 
     def send_image(self,image):
         self.__print("image")
@@ -123,7 +130,11 @@ class WebConnection:
         mess["action"]             = "IMAGE"
         mess["topic"]              = self.topic
         mess["image"]              = base64.b64encode(image)
+#       self.__print(mess["image"])
+        self.lock.acquire()
         self.ws.send(json.dumps(mess))
+        self.lock.release()
+        self.__print("sended image")
 
     def send_status(self):
         self.__print("Send status")
@@ -139,4 +150,7 @@ class WebConnection:
         mess["song"] = self.brainz.player.current_song
         mess["state"] = self.brainz.state
 
+        self.lock.acquire()
         self.ws.send(json.dumps(mess))
+        self.lock.release()
+        self.__print("sended status")
