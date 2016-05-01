@@ -32,7 +32,7 @@ class Video:
 
         self.camera = picamera.PiCamera()
         self.camera.resolution = (160, 120)
-        self.camera.framerate = 2
+        self.camera.framerate = 5
         self.__print('Waiting 2 seconds for the camera to warm up')
         time.sleep(2)
 

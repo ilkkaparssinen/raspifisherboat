@@ -93,6 +93,16 @@ class WebConnection:
         self.ws.send(json.dumps(mess))
         self.lock.release()
 
+    def send_message(self,message):
+        self.__print("Send chat")
+        mess = {}
+        mess["action"]             = "MESSAGE"
+        mess["topic"]              = self.topic
+        mess["message"]            = message
+        self.lock.acquire()
+        self.ws.send(json.dumps(mess))
+        self.lock.release()
+
 
     def set_settings(self,mess):
         self.__print("Set settings")

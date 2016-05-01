@@ -76,6 +76,7 @@ class Brainz:
         self.video.start()
         time.sleep(1)
         self.player.talk("Hello. Boat bot wants to start fishing")
+        self.web_connection.send_message("Boat bot started")
 
         try:
             while True:
@@ -95,7 +96,7 @@ class Brainz:
     def tick(self):
         try:
             interval = self.TICK_INTERVAL
-#           self.gps_tracker.tick(interval)
+            self.gps_tracker.tick(interval)
 #           self.player.tick(interval)
 #           self.adc_sensors.tick(interval)
             self.video.tick(interval)
@@ -122,3 +123,4 @@ class Brainz:
         if self.adc_sensors.flex < self.flex_fish_limit:
             self.state = self.STATE_HASFISH
             self.player.talk("Hey there. I got a fish!")
+            self.web_connection.send_message("FISH. Maybe. Flex:" + str(self.adc_sensors.flex))

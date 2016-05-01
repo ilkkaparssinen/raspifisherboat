@@ -37,8 +37,8 @@ class GpsTracker:
         self.started = False
         self.latitude = 60 
         self.longitude = 20
-        self.speed = 0
-        self.track = 0
+        self.speed = 10
+        self.track = 20
 
     def __print(self, str):
         if self.verbose:
@@ -55,6 +55,10 @@ class GpsTracker:
 
     def tick(self,interval):
         if not self.started:
+# Test values
+            self.latitude = self.latitude + 0.0001;
+            self.longitude = self.longitude + 0.0001;
+            self.track = self.track + 2;
             return
 
         self.__print(gps_fix)
