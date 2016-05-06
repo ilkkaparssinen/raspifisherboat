@@ -109,10 +109,17 @@ class WebConnection:
         self.brainz.speed                     = mess["speed"]
         self.brainz.turn                      = mess["turn"]
         self.brainz.speed_change_cycle        = mess["speed_change_cycle"]
+        self.__print("Setting")
         self.brainz.speed_motors_full_percent = mess["speed_motors_full_percent"]
         self.brainz.low_speed_percent         = mess["low_speed_percent"]
         self.brainz.play_music                = mess["play_music"]
 
+        self.__print("Music")
+        self.__print(self.brainz.play_music)
+        self.__print("Speed")
+        self.__print(self.brainz.speed)
+        self.__print("Turn")
+        self.__print(self.brainz.turn)
     def send_settings(self):
         self.__print("Send settings")
         if not self.started:
@@ -133,7 +140,6 @@ class WebConnection:
         self.__print("Sended settings")
 
     def send_image(self,image):
-        self.__print("image")
         if not self.started:
             return
         mess = {}
@@ -144,7 +150,6 @@ class WebConnection:
         self.lock.acquire()
         self.ws.send(json.dumps(mess))
         self.lock.release()
-        self.__print("sended image")
 
     def send_status(self):
         self.__print("Send status")

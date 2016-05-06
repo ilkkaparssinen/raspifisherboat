@@ -42,6 +42,7 @@ class Player:
     # If the songs are off -> dont play anything
 
     def change_song(self):
+        self.__print("Play song")
         if self.brainz.play_music == False:
             self.current_song = -1
             self.current_song_length = 5
@@ -62,7 +63,7 @@ class Player:
     def play(self,mp3file):
         self.__print("Play file:" + mp3file)
         FNULL = open(os.devnull, 'w')
-        subprocess.Popen(["omxplayer",mp3file],stdout=FNULL, stderr=subprocess.STDOUT)
+        subprocess.Popen(["omxplayer","--vol","-600",mp3file],stdout=FNULL, stderr=subprocess.STDOUT)
 
     def talk(self,message):
         if not self.started:

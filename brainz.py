@@ -97,7 +97,7 @@ class Brainz:
         try:
             interval = self.TICK_INTERVAL
             self.gps_tracker.tick(interval)
-#           self.player.tick(interval)
+            self.player.tick(interval)
 #           self.adc_sensors.tick(interval)
             self.video.tick(interval)
 #           self.motors.tick(interval)

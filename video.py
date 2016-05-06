@@ -48,7 +48,6 @@ class Video:
 
         for foo in self.camera.capture_continuous(stream,'jpeg',True):
 #           img = stream.getvalue()
-            self.__print("Image")
             self.brainz.web_connection.send_image(stream.getvalue())
             stream.seek(0)
             stream.truncate()
