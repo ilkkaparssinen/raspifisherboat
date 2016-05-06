@@ -60,7 +60,8 @@ class GpsTracker:
             self.longitude = self.longitude + 0.0001;
             self.track = self.track + 2;
             return
-
+        if (gps_fix == None):
+            return
         self.__print(gps_fix)
         self.speed = gps_fix.speed
         self.latitude = gps_fix.latitude

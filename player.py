@@ -16,7 +16,7 @@ class Player:
         self.current_song_length = 0
         self.song_count = 2
         self.songs = ["song1.mp3","song2.mp3"]
-        self.songnames = ["Titanic","Fur Elise"]
+        self.songnames = ["Maybe perches have extremely bad music taste. Titanic by Frederic. Ouch. ","Or maybe fish like classical. Playing Fur Elise."]
         self.song_lengths = [166,166]
 
     def __print(self, str):
@@ -54,11 +54,11 @@ class Player:
         if self.song_count <= self.current_song:
             self.current_song = -1
             self.current_song_length = self.song_lengths[0]
-            self.brainz.web_connection.send_message("Stopped music for a while")
+            self.brainz.web_connection.send_message("Stopped music for a while. Maybe fishes prefer silence.")
         else:
             self.current_song_length = self.song_lengths[self.current_song]
             self.play(self.songs[self.current_song])
-            self.brainz.web_connection.send_message("Changed music :" + self.songnames[self.current_song])
+            self.brainz.web_connection.send_message( self.songnames[self.current_song])
 
     def play(self,mp3file):
         self.__print("Play file:" + mp3file)

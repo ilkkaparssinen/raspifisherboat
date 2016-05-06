@@ -20,7 +20,7 @@ class WebConnection:
         self.verbose = verbose
         self.ticks = 0
         self.started = False
-        self.connected = True
+        self.connected = False
         self.ws = None
         self.wst = None
         self.topic = "TEST"
@@ -50,8 +50,8 @@ class WebConnection:
         self.reconnect()
 
     def on_open(self, ws):
-        self.subscribe()
         self.connected = True
+        self.subscribe()
         self.send_settings()
         self.__print("Websocket opened")
         self.send_message("Ahoy! Boat is ready!")
@@ -100,7 +100,7 @@ class WebConnection:
         if not self.connected:
             return
 
-        self.__print("Set settings")
+        self.__print("Send subscribe")
         mess = {}
         mess["action"]             = "SUBSCRIBE"
         mess["topic"]              = self.topic
@@ -124,7 +124,7 @@ class WebConnection:
 
 
     def set_settings(self,mess):
-        self.__print("Set settings")
+        self.__print("Set settings!!")
         self.brainz.speed                     = mess["speed"]
         self.brainz.turn                      = mess["turn"]
         self.brainz.speed_change_cycle        = mess["speed_change_cycle"]
@@ -159,7 +159,7 @@ class WebConnection:
         self.__print("Sended settings")
 
     def send_image(self,image):
-        if not self.started:
+        if not self.connected:
             return
         mess = {}
         mess["action"]             = "IMAGE"
@@ -172,7 +172,7 @@ class WebConnection:
 
     def send_status(self):
         self.__print("Send status")
-        if not self.started:
+        if not self.connected:
             return
         mess = {}
         mess["action"] = "STATUS"
@@ -189,4 +189,4 @@ class WebConnection:
         self.ws.send(json.dumps(mess))
         self.lock.release()
         self.__print("sended status")
-        self.send_message("Boat speed is:" + str( self.brainz.gps_tracker.speed) + " rod bend:" + str(mess["flex"]))
+#        self.send_message("Boat speed is:" + str( self.brainz.gps_tracker.speed) + " rod bend:" + str(mess["flex"]))

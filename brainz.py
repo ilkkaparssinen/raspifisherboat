@@ -71,7 +71,7 @@ class Brainz:
 #       self.motors.start()
 #       self.adc_sensors.start()
         self.web_connection.start()
-#       self.gps_tracker.start()
+        self.gps_tracker.start()
         self.__print('Brainz warming up')
         self.video.start()
         time.sleep(1)
@@ -101,7 +101,7 @@ class Brainz:
 #           self.adc_sensors.tick(interval)
             self.video.tick(interval)
 #           self.motors.tick(interval)
-#           self.web_connection.tick(interval)
+            self.web_connection.tick(interval)
             self.tick_check()
             self.status_counter += 1
         # Send status report to websocket server
