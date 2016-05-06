@@ -59,6 +59,4 @@ class Video:
         if not self.started:
             return
 
-        self.camera.stop_recording()
-        self.__print('Stopped recording')
-
+        self.started = False
