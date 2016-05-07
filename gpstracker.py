@@ -42,8 +42,14 @@ class GpsTracker:
                 # To see all report data, uncomment the line below
                 print report
                 if report['class'] == 'TPV':
-                    if hasattr(report, 'time'):
-                        print report.time
+                    if hasattr(report, 'lat'):
+                        self.latitude = report.lat
+                    if hasattr(report, 'lon'):
+                        self.longitude = report.lon
+                    if hasattr(report, 'speed'):
+                        self.speed = report.speed
+                    if hasattr(report, 'track'):
+                        self.track = report.track
             except KeyboardInterrupt:
                 quit()
             except StopIteration:
