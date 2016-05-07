@@ -16,6 +16,9 @@ class GpsPoller(threading.Thread):
     gpsd = GPSDSocket("127.0.0.1")
     self.current_value = None
     self.running = True #setting the thread running to true
+  def __print(self, str):
+    if self.verbose:
+      print ( str)
 
   def run(self):
     global gpsd
@@ -23,9 +26,12 @@ class GpsPoller(threading.Thread):
     gps_fix = Fix()
 
     for new_data in gpsd:
+            self.__print("Got data")
             if new_data:
+                self.__print("Refresh data")
                 gps_fix.refresh(new_data)
     while self.running:
+      self.__print("Gpsd next")
       gpsd.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
 
 
@@ -61,6 +67,7 @@ class GpsTracker:
             self.track = self.track + 2;
             return
         if (gps_fix == None):
+            self.__print("No fix")
             return
         self.__print(gps_fix)
         self.speed = gps_fix.speed
