@@ -24,10 +24,17 @@ class GpsTracker:
             print (str)
 
     def connect(self):
+        self.__print("Connect")
         self.session = gps.gps("127.0.0.1", "2947")
         self.session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
+        # Listen on port 2947 (gpsd) of localhost
+        self.__print("Start thread")
+        self.read_thread = threading.Thread(target=self.poll)
+        self.read_thread.daemon = True
+        self.read_thread.start()
 
     def poll(self):
+        self.__print("Poll")
         while True:
             try:
                 report = self.session.next()
@@ -45,10 +52,7 @@ class GpsTracker:
 
     def start(self):
         self.started = True
-        # Listen on port 2947 (gpsd) of localhost
-        self.read_thread = threading.Thread(target=self.poll)
-        self.read_thread.daemon = True
-        self.read_thread.start()
+        self.connect() 
 
     def stop(self):
         pass
