@@ -52,9 +52,11 @@ class Video:
             stream.seek(0)
             stream.truncate()
             if self.take_photo:
-                break;
+                break
+
 
         if self.take_photo:
+            self.__print('Take a real photo')
             self.take_photo = False
             self.camera.close()
             self.capture()

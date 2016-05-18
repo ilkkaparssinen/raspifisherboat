@@ -170,6 +170,7 @@ class WebConnection:
         self.send_image_type("IMAGE",image)
 
     def send_photo(self,image):
+        self.__print('Sending a real photo')
         self.send_image_type("PHOTO",image)
 
     def send_image_type(self,type,image):
