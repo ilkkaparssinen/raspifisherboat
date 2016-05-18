@@ -18,10 +18,10 @@ class Video:
         self.brainz = brainz
         self.verbose = verbose
         self.camera = None
-        self.motion_detected = False
         self.i = 0
         self.wst = None
         self.started = False
+        self.take_photo = False
 
     def __print(self, str):
         if self.verbose:
@@ -51,6 +51,31 @@ class Video:
             self.brainz.web_connection.send_image(stream.getvalue())
             stream.seek(0)
             stream.truncate()
+            if self.take_photo:
+                break;
+
+        if self.take_photo:
+            self.take_photo = False
+            self.camera.close()
+            self.capture()
+            # Restart thread
+            self.start()
+
+
+    def capture(self):
+        self.camera.start_preview()
+        self.camera = picamera.PiCamera()
+        self.camera.resolution = (160, 120)
+        self.camera.start_preview()
+        time.sleep(3)
+        self.camera.capture('photo.jpg')
+        self.camera.stop_preview()
+        self.camera.close()
+        f = open('photo.jpg', 'r+')
+        jpgdata = f.read()
+        f.close()
+        self.brainz.web_connection.send_photo(jpgdata)
+
 
     def tick(self,interval):
         pass

@@ -38,6 +38,9 @@ class WebConnection:
             self.__print("ping")
         elif imess["action"] == "SETTINGS":
             self.set_settings(imess)
+        elif imess["action"] == "TAKEPHOTO":
+            self.take_photo()
+
         else:
             self.__print("Unknown message")
 
@@ -139,6 +142,11 @@ class WebConnection:
         self.__print(self.brainz.speed)
         self.__print("Turn")
         self.__print(self.brainz.turn)
+
+    def take_photo(self):
+        self.__print("Take photo")
+        self.brainz.video.take_photo = True
+
     def send_settings(self):
         self.__print("Send settings")
         if not self.started:
@@ -159,13 +167,18 @@ class WebConnection:
         self.__print("Sended settings")
 
     def send_image(self,image):
+        self.send_image_type("IMAGE",image)
+
+    def send_photo(self,image):
+        self.send_image_type("PHOTO",image)
+
+    def send_image_type(self,type,image):
         if not self.connected:
             return
         mess = {}
-        mess["action"]             = "IMAGE"
+        mess["action"]             = type
         mess["topic"]              = self.topic
         mess["image"]              = base64.b64encode(image)
-#       self.__print(mess["image"])
         self.lock.acquire()
         self.ws.send(json.dumps(mess))
         self.lock.release()

@@ -68,4 +68,3 @@ class GpsTracker:
         # self.latitude = gps_fix.latitude
         # self.longitude = gps_fix.longitude
         # self.track = gps_fix.track
-        
