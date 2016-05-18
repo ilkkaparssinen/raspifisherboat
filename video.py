@@ -65,7 +65,6 @@ class Video:
 
 
     def capture(self):
-        self.camera.start_preview()
         self.camera = picamera.PiCamera()
         self.camera.resolution = (160, 120)
         self.camera.start_preview()
