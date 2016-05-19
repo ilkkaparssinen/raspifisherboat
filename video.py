@@ -66,9 +66,9 @@ class Video:
 
     def capture(self):
         self.camera = picamera.PiCamera()
-        self.camera.resolution = (160, 120)
+        self.camera.resolution = (2592, 1944)
         self.camera.start_preview()
-        time.sleep(3)
+        time.sleep(2)
         self.camera.capture('photo.jpg')
         self.camera.stop_preview()
         self.camera.close()
