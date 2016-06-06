@@ -47,7 +47,7 @@ class Brainz:
 # Turn = -1 - +1  = +1 Only left motor on (turn to right)
 #                    0 Both motors same speed
 #                   -1 Only right motor on (turn to left)
-        self.speed      = 0.5
+        self.speed      = 0.0
         self.turn       = 0.0
 # speed style examples:
 #   - Constant speed = (low_speed_percent = 100)
