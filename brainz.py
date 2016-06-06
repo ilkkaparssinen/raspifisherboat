@@ -100,7 +100,7 @@ class Brainz:
             self.player.tick(interval)
 #           self.adc_sensors.tick(interval)
             self.video.tick(interval)
-#           self.motors.tick(interval)
+            self.motors.tick(interval)
             self.web_connection.tick(interval)
             self.tick_check()
             self.status_counter += 1
