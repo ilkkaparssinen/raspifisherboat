@@ -42,12 +42,12 @@ class Motors:
         if self.brainz.low_speed_percent < 1:
             new_speed = self.brainz.speed
         else:
-            if self.cycle_time > self.brainz.speed_change_cycle:
+            if self.cycle_time > float(self.brainz.speed_change_cycle):
                 self.cycle_time = 0
-            if self.cycle_time > self.brainz.speed_motors_full_percent *  self.brainz.speed_change_cycle / 100.0:
-                new_speed = self.brainz.speed * self.brainz.low_speed_percent / 100.0
+            if self.cycle_time > int(self.brainz.speed_motors_full_percent) *  float(self.brainz.speed_change_cycle) / 100.0:
+                new_speed = int(self.brainz.speed) * int(self.brainz.low_speed_percent) / 100.0
             else:
-                new_speed = self.brainz.speed
+                new_speed = int(self.brainz.speed)
 
         # Divide speed to two motors
 
