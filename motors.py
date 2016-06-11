@@ -52,9 +52,8 @@ class Motors:
 
         # Divide speed to two motors
 
-
-        new_right_motor_speed = new_speed * (1.0 - float(self.brainz.turn) ) / 2.0
-        new_left_motor_speed = new_speed * (1.0 + float(self.brainz.turn) ) / 2.0
+        new_right_motor_speed = min(1.0, new_speed * (1.0 - float(self.brainz.turn)))
+        new_left_motor_speed = min(1.0, new_speed * (1.0 + float(self.brainz.turn)))
 
         self.rightMotor.run(Adafruit_MotorHAT.FORWARD)
         self.leftMotor.run(Adafruit_MotorHAT.FORWARD)
