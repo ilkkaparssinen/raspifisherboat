@@ -39,21 +39,22 @@ class Motors:
 
     def set_speed(self):
         new_speed = 0
+        self.__print("Speed:" + str(self.brainz.speed))
         if self.brainz.low_speed_percent < 1:
-            new_speed = self.brainz.speed
+            new_speed = float(self.brainz.speed)
         else:
             if self.cycle_time > float(self.brainz.speed_change_cycle):
                 self.cycle_time = 0
             if self.cycle_time > int(self.brainz.speed_motors_full_percent) *  float(self.brainz.speed_change_cycle) / 100.0:
-                new_speed = int(self.brainz.speed) * int(self.brainz.low_speed_percent) / 100.0
+                new_speed = float(self.brainz.speed) * int(self.brainz.low_speed_percent) / 100.0
             else:
-                new_speed = int(self.brainz.speed)
+                new_speed = float(self.brainz.speed)
 
         # Divide speed to two motors
 
 
-        new_right_motor_speed = new_speed * (1.0 - self.brainz.turn ) / 2.0
-        new_left_motor_speed = new_speed * (1.0 + self.brainz.turn ) / 2.0
+        new_right_motor_speed = new_speed * (1.0 - float(self.brainz.turn) ) / 2.0
+        new_left_motor_speed = new_speed * (1.0 + float(self.brainz.turn) ) / 2.0
 
         self.rightMotor.run(Adafruit_MotorHAT.FORWARD)
         self.leftMotor.run(Adafruit_MotorHAT.FORWARD)
