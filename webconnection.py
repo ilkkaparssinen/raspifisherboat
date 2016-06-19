@@ -23,7 +23,7 @@ class WebConnection:
         self.connected = False
         self.ws = None
         self.wst = None
-        self.topic = "TEST"
+        self.topic = os.getenv('BOAT', 'TEST')
         self.lock = threading.Lock()
 
     def __print(self, str):
