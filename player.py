@@ -16,7 +16,7 @@ class Player:
         self.current_song_length = 0
         self.song_count = 2
         self.songs = ["song1.mp3","song2.mp3"]
-        self.songnames = ["Maybe perches have extremely bad music taste. Titanic by Frederic. Ouch. ","Or maybe fish like classical. Playing Fur Elise."]
+        self.songnames = ["Maybe perches have extremely bad music taste. Titanic by Frederic. ","Or maybe fish like classical. Playing Fur Elise."]
         self.song_lengths = [166,166]
 
     def __print(self, str):
@@ -63,7 +63,8 @@ class Player:
     def play(self,mp3file):
         self.__print("Play file:" + mp3file)
         FNULL = open(os.devnull, 'w')
-        subprocess.Popen(["omxplayer","--vol","-600",mp3file],stdout=FNULL, stderr=subprocess.STDOUT)
+# Play music - removed the mp3 files from project ..
+#        subprocess.Popen(["omxplayer","--vol","-600",mp3file],stdout=FNULL, stderr=subprocess.STDOUT)
 
     def talk(self,message):
         if not self.started:

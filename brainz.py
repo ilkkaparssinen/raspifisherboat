@@ -68,7 +68,7 @@ class Brainz:
     def start(self):
         # If you dont want/have some module - just remove start method
         self.player.start()
-#       self.motors.start()
+        self.motors.start()
 #       self.adc_sensors.start()
         self.web_connection.start()
         self.gps_tracker.start()
@@ -88,7 +88,7 @@ class Brainz:
         finally:
             self.player.stop()
             self.web_connection.stop()
-#           self.motors.stop()
+            self.motors.stop()
             self.video.stop()
             self.adc_sensors.stop()
             self.__print('Brainz died')
