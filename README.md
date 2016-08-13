@@ -12,7 +12,7 @@ Raspberry Pi in boat, which controls GPS, camera and the motors. Boat is steered
  - Two DC motors. Steering is done by adjusting the speed of the two motors (one on the right side and one on the left side). Controlling the motors is based on Adafruit Motor Hat and the libraries for that.
  - Internet connection (4G modem)
  - Boat can also "speak" if it has a connected speaker
- - On board camera which transmits very low res MJPEG (6 frames/second ) via web sockets. Also on spearate command it takes full photos and sends them. This is based on the Raspberyy PI camera module and it's python libraries.
+ - On board camera which transmits very low res MJPEG (5 frames/second ) via web sockets. Also on spearate command it takes full photos and sends them. This is based on the Raspberyy PI camera module and it's python libraries.
  - GPS location (location, speed and direction) is sent to the web server and there to clients, which show this information with google maps.
  - Option for adding a flex control to detect fish catches. (We didn't use this - too many wires..., but the code is there).
  - Option for playing music. We had a plan for "scientific" program to test if some sounds atrract fishes. Program switches between two mp3 files + some amount of silence.
