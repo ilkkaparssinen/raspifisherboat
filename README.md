@@ -1,7 +1,7 @@
 
 #Internet enabled Raspberry Pi fishing boat
 
-Raspberry Pi in boat, which controls GPS, camera and the motors. Boatis steered and controlled from web ui.
+Raspberry Pi in boat, which controls GPS, camera and the motors. Boat is steered and controlled from web ui.
 
 ## Boat software consists of three projects:
  - **BOAT**:  python program which handles steering, gps, camera and other stuff. That software is in this project.
@@ -52,7 +52,19 @@ Raspberry Pi in boat, which controls GPS, camera and the motors. Boatis steered 
   - A lot of them, and I have probably already forgotten some of them. The main ones are described excellently in Adafruit learning material (gps, flex sensors, motor hat etc.)
   - Different settings - getting the Huawei 4G modem to work was a pain. Also all kind of settings were needed along the way - but they too are explained better in other documentiotion.
 
+## Software structure
+ - fish.sh: shell script that starts the program. I used it from boot to autostart everything. 
+ - fisherboat.py: main module. Just starts brainz.py
+ - brainz.py: main loop. Starts different devices and controls them in a loop (every 0.2 seconds)
+ - motors.py: control 2 dc motors
+ - gpstracker.py: control gps module
+ - player.py: play music and call espeak to give voice info
+ - video.py: control camera - send mjpeg video + take full res photos
+ - webconnection.py: web socket connection to server. Send status, video and photos. Receive steering commands. (There is the fixed ip address for server - change that to your own).
+ - adcsensors.py: adc sensor reading for flex sensor. Currently not initialized (remove comments from brainz.py)
+  
 ## Software license:
  - DWYWDBM-license: Do what you want, don't blame me
  - Warning - this is not a plug & play project - it has a lot of moving parts and requires some knowledge to how to set up a web server etc. this definitely is not a Raspberry Pi beginner project. 
+ - Feel free to use any parts of the project.
  
