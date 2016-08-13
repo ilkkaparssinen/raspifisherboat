@@ -1,12 +1,12 @@
 # raspifisherboat
-Internet enabled Raspberry Pi fishing boat
+#Internet enabled Raspberry Pi fishing boat
 
-Boat software consists of three projects:
+## Boat software consists of three projects:
  - BOAT:  python program which handles steering, gps, camera and other stuff. That software is in this project.
- - WEB UI: Angular 2 based web client Software for this is in separate project: https://github.com/ilkkaparssinen/...
- - SERVER: node.js server gets boat information via websockets and passess them forward to clients. Websocket connection is used also to pass information from client to boat (steering & speed). node.js is in separate project https://github.com/ilkkaparssinen/...
+ - WEB UI: Angular 2 based web client Software for this is in separate project: https://github.com/ilkkaparssinen/fisherboat-web
+ - SERVER: node.js server gets boat information via websockets and passess them forward to clients. Websocket connection is used also to pass information from client to boat (steering & speed). node.js is in separate project https://github.com/ilkkaparssinen/fisherboat-server
 
-Boat features:
+## Boat features:
  - Two DC motors. Steering is done by adjusting the speed of the two motors (one on the right side and one on the left side). Controlling the motors is based on Adafruit Motor Hat and the libraries for that.
  - Internet connection (4G modem)
  - On board camera which transmits very low res MJPEG (6 frames/second ) via web sockets. Also on spearate command it takes full photos and sends them. This is based on the Raspberyy PI camera module and it's python libraries.
@@ -16,7 +16,7 @@ Boat features:
  - Different speed variation programs for different kind of fishing.
  - Python 2.7 client. These raspberry tests are the first time I have programmed with python (but I like it) so the solution might not be very pythonesque, but in general the solution is quite clean. 
 
-Web client features:
+## Web client features:
  - Speed and direction control of the boat
  - Multiple simultanous drivers (server acts as a publish & subscribe server, so everybody is in sync)
  - Real time video
@@ -26,11 +26,13 @@ Web client features:
  - Google maps - show location, direction and speed of the boat
  - Implemented with Angular 2 beta (things have changed in Angular 2 since that, and this was a learning project for me for Angular 2 - the software is ..uh.. not very good).
  
- Server features:
+ ## Server features:
  - Web socket connection from the boat and to the clients. 
  - Simple pub/sub server
+ - Serves the static angular 2 files for the web app
  - Can support multiple boats (each boat must have their own boat id)
- - Simple node.js websocket solution. This was a quick hack, but surpprisingly robust - I just put it running to EC2 and it just keeps running and responsing whenever we test the boat.
+ - Simple node.js websocket solution. This was a quick hack, but it turned out to be surprisingly robust - I just put it running to EC2 and it just keeps running and responsing whenever we test the boat. No problems.
  
- 
+ ## Software license:
+ - DWYWDBM-license: Do what you want, don't blame me
  
